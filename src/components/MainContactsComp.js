@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Card, CardHeader,CardFooter, CardBody, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { mapDispatchToProps } from "../reducers/contact_reducer";
 class MainContactsComp extends Component {
     constructor() {
         super();
@@ -10,6 +12,7 @@ class MainContactsComp extends Component {
         }
         this.toggleForVUD = this.toggleForVUD.bind(this);
         this.toggleForNew = this.toggleForNew.bind(this);
+        this.onContactView = this.onContactView.bind(this);
     }
     componentDidMount() {
         let contacts = [
@@ -52,6 +55,14 @@ class MainContactsComp extends Component {
     onNewContact = (e) =>{
             this.toggleForNew();
     }
+    onContactView = () =>{
+        this.toggleForNew();
+        let selectedContact = this.state.contacts.filter(item => item.name === this.state.selectedContact);
+        this.props.setSelectedContact(selectedContact[0]);
+        this.props.history.push("/contactdetails");
+     
+     
+    }
     render() {
         return (
             <div>
@@ -69,14 +80,14 @@ class MainContactsComp extends Component {
                         </ListGroup>
                     </CardBody>
                     <CardFooter>
-                    <button id="addcontact" onClick={this.onNewContact} style={{ "margin-left": "20px", float: "left" }} ><i style={{ color: 'black' }} className="fa fa-plus" ></i> New</button>
+                    <button id="addcontact" onClick={this.onNewContact} style={{ "margin-left": "15px", float: "left" }} ><i style={{ color: 'black' }} className="fa fa-plus" ></i> New</button>
                     </CardFooter>
                     <Modal isOpen={this.state.modalForVUD} toggle={this.toggleForVUD} className={this.props.className}>
                         <ModalHeader toggle={this.toggleForVUD}>{this.state.selectedContact}</ModalHeader>
                         <ModalBody>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.toggleForVUD}>View</Button>{' '}
+                            <Button color="primary" onClick={this.onContactView}>View</Button>{' '}
                             <Button color="primary" onClick={this.toggleForVUD}>Edit</Button>{' '}
                             <Button color="primary" onClick={this.toggleForVUD}>Delete</Button>{' '}
                             <Button color="secondary" onClick={this.toggleForVUD}>Cancel</Button>
@@ -96,4 +107,4 @@ class MainContactsComp extends Component {
         )
     }
 }
-export default MainContactsComp;
+export default connect(null,mapDispatchToProps)(MainContactsComp);

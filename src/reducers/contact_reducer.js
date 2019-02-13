@@ -18,7 +18,7 @@ const contactReducer = (state = initialState, action) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLogoutFlag: (selectedContactDetails) => {
+        setSelectedContact: (selectedContactDetails) => {
             dispatch({
                 type: "CONTACT_DETAILS",
                 payload: selectedContactDetails

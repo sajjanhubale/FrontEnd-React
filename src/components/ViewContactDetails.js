@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Card, CardHeader, CardBody} from 'reactstrap';
+import { connect } from "react-redux";
+import { Card, CardHeader, CardBody, FormGroup, Col , Label} from 'reactstrap';
 class ViewContactDetails extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
          
         }
@@ -30,19 +31,35 @@ class ViewContactDetails extends Component {
         this.setState({ contacts: contacts })
     }
    
-   
     render() {
         return (
             <div>
                 <Card>
                     <CardHeader>
-                        <span>Contact Details</span>
+                        <span style={{ "margin-left": "15px", float: "left" }}>Contact Details</span>
+                        <button id="Back" onClick={()=>{this.props.history.push("/")}} style={{ "margin-left": "15px", float: "left" }}><i style={{ color: 'lightskyblue' }} className="fa fa-arrow-left"></i> Back</button>
                     </CardHeader>
                     <CardBody>
-                      </CardBody>
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label>Name : </Label>
+                      </Col>
+                      <Col xs="12" md="6">
+                      <span>{this.props.contacts.selectedContactDetails != null ? this.props.contacts.selectedContactDetails.name : "" }</span>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label>Mobile Number : </Label>
+                      </Col>
+                      <Col xs="12" md="6">
+                      <span>{this.props.contacts.selectedContactDetails != null ? this.props.contacts.selectedContactDetails.mobile_number : ""}</span>
+                      </Col>
+                    </FormGroup>
+                    </CardBody>
                 </Card>
             </div>
         )
     }
 }
-export default ViewContactDetails;
+export default connect(({contacts})=>{return {contacts:contacts}})(ViewContactDetails);
